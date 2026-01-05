@@ -83,7 +83,7 @@ export const skills = {
 export const projects = [
   {
     title: "🚑 Mobile App Rescue",
-    github: "mailto:christian-reinoso@rinnotec.com?subject=Auditoría%20App%20Mobile", 
+    github: "mailto:chrispaulrtv@rinnotec.com?subject=Auditoría%20App%20Mobile", 
     description: [
       "Auditoría profunda de Apps en React Native.",
       "Corrección de bugs críticos, crashes y optimización de rendimiento (60fps).",
@@ -93,7 +93,7 @@ export const projects = [
   },
   {
     title: "👨‍💻 Fractional Senior Dev",
-    github: "https://wa.me/593992878918?text=Hola,%20me%20interesa%20la%20consultoría%20por%20horas",
+    github: "mailto:chrispaulrtv@rinnotec.com?subject=Desarrollo%20Fraccional",
     description: [
       "Consultoría por bolsa de horas (10h - 20h / mes) para Agencias.",
       "Soporte Senior para tu equipo: Code Reviews y Mentoría técnica.",
@@ -103,7 +103,7 @@ export const projects = [
   },
   {
     title: "⚡ High-Performance Web",
-    github: "mailto:christian-reinoso@rinnotec.com?subject=Web%20Astro",
+    github: "mailto:chrispaulrtv@rinnotec.com?subject=Web%20Astro",
     description: [
       "Desarrollo de sitios corporativos y Landing Pages usando Astro.",
       "Velocidad de carga instantánea (Score 100/100 en Lighthouse).",
