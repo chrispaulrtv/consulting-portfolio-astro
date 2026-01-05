@@ -1,186 +1,111 @@
-# Modern Portfolio Template
+# Senior Consultant Portfolio & Landing Page
 
-A sleek, responsive portfolio website built with **Astro**, **React**, and **Tailwind CSS**, featuring modern animations and stunning glassmorphism effects.
+The source code for my professional consulting website, built to offer high-performance services in **React Native**, **Nest.js**, and **Software Architecture**.
 
-![Portfolio Screenshot](https://github.com/user-attachments/assets/4f2466f1-1ebe-4cbe-857c-40eccd63c384)
+Designed to be **blazing fast**, **SEO-optimized**, and focused on **B2B conversion**.
 
-## ✨ Features
+![Tech Stack](https://skillicons.dev/icons?i=astro,react,ts,tailwind,nodejs,docker)
 
-- **Modern Design** – Clean, professional layout with elegant glassmorphism
-- **Animations** – Smooth transitions and interactive UI via Framer Motion
-- **Dark/Light Mode** – Automatic theme switching with system preference detection
-- **Fully Responsive** – Optimized for mobile, tablet, and desktop
-- **Blazing Fast** – Powered by Astro for superior performance
-- **Modular Structure** – Built for easy customization and scalability
-- **SEO Friendly** – Structured content and meta tags for better visibility
+## 🌐 Live Site
 
-## 🚀 Demo
+👉 **[chrispaulrtv.rinnotec.com](https://chrispaulrtv.rinnotec.com)**
 
-👉 [Live Demo](https://rishilol.vercel.app/)
+---
 
-## 🛠 Getting Started
+## ✨ key Features
 
-### Prerequisites
+- **High Performance:** Scored **100/100** on Google Lighthouse Core Web Vitals.
+- **Service-Oriented Architecture:** Modified structure to showcase *Services* & *Consulting Packages* instead of generic projects.
+- **Glassmorphism UI:** Modern, dark-mode-first aesthetic for a premium professional look.
+- **Tech Stack:**
+  - **Framework:** [Astro](https://astro.build/) (Static Site Generation for speed)
+  - **UI Library:** [React](https://react.dev/) + [Framer Motion](https://www.framer.com/motion/)
+  - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+  - **Type Safety:** TypeScript
 
-- Node.js (v18+ recommended)
-- npm / yarn / bun
+## 🛠 Project Structure
 
-### Installation
+This project is configured to be data-driven. The entire content strategy lives in `src/lib/data.ts`, making it easy to pivot services or update pricing without touching UI components.
 
-```bash
-git clone https://github.com/yourusername/my-portfolio.git
-cd my-portfolio
+### Data Schema (`src/lib/data.ts`)
 
-# Install dependencies
-npm install
-# or
-yarn install
-# or
-bun install
+My custom configuration for selling **Senior Consulting Services**:
 
-# Start development server
-npm run dev
-# or
-yarn dev
-# or
-bun dev
-```
-
-Visit `http://localhost:4321` in your browser to see it in action.
-
-## 🧩 Customizing the Portfolio
-
-All your content lives inside `src/lib/data.ts`. Update the following to make it yours:
-
-### 1. Personal Info
-
+#### 1. Professional Profile
 ```ts
 export const personalInfo = {
-  name: "Your Name",
-  location: "Your Location",
-  email: "your.email@example.com",
-  github: "https://github.com/yourusername",
-  linkedin: "https://www.linkedin.com/in/yourusername/",
+  name: "Christian Reinoso",
+  role: "Senior Consultant Developer",
+  location: "Ecuador (Remote Worldwide)",
+  email: "chrispaulrtv@rinnotec.com",
+  heroDescription: "Specialist in React Native & Nest.js. I help Agencies and Startups scale mobile applications.",
 };
+
 ```
 
-### 2. Work Experience
-
-```ts
-export const workExperience = [
-  {
-    company: "Company Name",
-    location: "Location",
-    position: "Your Position",
-    period: "Start Date - End Date",
-    achievements: [
-      "Achievement 1",
-      "Achievement 2",
-    ],
-  },
-];
-```
-
-### 3. Education
-
-```ts
-export const education = [
-  {
-    institution: "University Name",
-    location: "Location",
-    degree: "Your Degree",
-    period: "Start Date - End Date",
-    achievements: [
-      "Achievement 1",
-      "Achievement 2",
-    ],
-  },
-];
-```
-
-### 4. Skills
-
-```ts
-export const skills = {
-  programmingLanguages: ["TypeScript", "Python"],
-  frontendDevelopment: ["React", "Next.js"],
-  // and more...
-};
-```
-
-### 5. Projects
+#### 2. Services (Formerly "Projects")
 
 ```ts
 export const projects = [
   {
-    title: "Project Name",
-    github: "https://github.com/yourusername/project",
+    title: "🚑 Mobile App Rescue",
+    github: "mailto:chrispaulrtv@rinnotec.com?subject=Audit", 
+    linkText: "Schedule Audit",
     description: [
-      "What it does",
-      "Technologies used",
+      "Deep audit of React Native Apps.",
+      "Performance optimization.",
+      "Crash resolution & Store deployment.",
     ],
   },
 ];
+
 ```
 
-### 6. Awards
+## 🚀 Local Development
 
-```ts
-export const awards = [
-  {
-    name: "Award Name",
-    issuer: "Issuer",
-    date: "Date",
-    type: "Type",
-    position: "Position",
-  },
-];
-```
+If you want to view the source code or adapt this architecture:
 
-## 📦 Build for Production
-
+1. **Clone the repository**
 ```bash
-npm run build
-# or
-yarn build
-# or
-bun run build
+git clone [https://github.com/chrispaulrtv/consulting-portfolio-astro.git](https://github.com/chrispaulrtv/consulting-portfolio-astro.git)
+cd consulting-portfolio-astro
+
 ```
 
-To preview the production build locally:
 
+2. **Install dependencies**
 ```bash
-npm run preview
-# or
-yarn preview
+pnpm install
+
 ```
 
-## 📤 Deployment
 
-Easily deploy to platforms like **Vercel**, **Netlify**, **GitHub Pages**, or any static host of your choice.
+3. **Start the server**
+```bash
+pnpm run dev
 
-## 📝 License
+```
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## ©️ Copyright
 
-© 2025 **Rishikesh S.** All rights reserved.
+## 📦 Deployment
 
-You’re welcome to use this template for your own portfolio — just update `data.ts` and tweak the design as needed. Please keep attribution to the original author.
+This project is optimized for **Vercel**.
 
----
+* **Build Command:** `pnpm run build`
+* **Output Directory:** `dist`
 
-## 🌟 Like it?
+## 👤 Author
 
-If you found this helpful or inspiring, **please consider leaving a star** ⭐ on the repo — it helps others discover it too!
+**Christian Reinoso**
+
+* **Role:** Senior Consultant Developer
+* **Specialty:** React Native, Nest.js, Scalable Architecture
+* **LinkedIn:** [linkedin.com/in/christian-reinoso](https://www.linkedin.com/in/christian-reinoso/)
+* **GitHub:** [@chrispaulrtv](https://github.com/chrispaulrtv)
 
 ---
 
 ## 🙏 Acknowledgments
 
-- [Astro](https://astro.build/)
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [Lucide Icons](https://lucide.dev/)
+Based on the [Astro Modern Portfolio Template](https://github.com/rishikesh2003/my-portfolio). Modified and re-architected for Senior Consulting services.
