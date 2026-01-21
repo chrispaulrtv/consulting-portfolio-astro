@@ -76,7 +76,6 @@ export const skills = {
   programmingLanguages: [
     "TypeScript",
     "JavaScript",
-    "Python",
     "SQL",
   ],
   frontendDevelopment: [
