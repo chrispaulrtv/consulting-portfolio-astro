@@ -3,9 +3,11 @@ import TimelineItem from "./TimelineItem";
 import { Briefcase, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
+import MotionProvider from "./MotionProvider";
 
 export default function ExperienceSection() {
   return (
+    <MotionProvider>
     <section id="experience" className="border-t border-border/50 py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <MotionWrapper>
@@ -81,5 +83,6 @@ export default function ExperienceSection() {
         </MotionWrapper>
       </div>
     </section>
+    </MotionProvider>
   );
 }

@@ -2,9 +2,11 @@ import { services } from "@/lib/data";
 import { ArrowRight, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
+import MotionProvider from "./MotionProvider";
 
 export default function ProjectsSection() {
   return (
+    <MotionProvider>
     <section id="services" className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
       <MotionWrapper>
         <div className="mb-9 flex items-end justify-between gap-4">
@@ -60,5 +62,6 @@ export default function ProjectsSection() {
         ))}
       </div>
     </section>
+    </MotionProvider>
   );
 }

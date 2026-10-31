@@ -8,6 +8,7 @@ import StationScene, {
   type StationHotspotId,
 } from "./three/StationScene";
 import StationPanel from "./StationPanel";
+import MotionProvider from "./MotionProvider";
 
 const AGENT_LINES: Record<StationHotspotId, string> = {
   experience: "Lo bancario empezó en Thoughtworks. Sigue explorando.",
@@ -48,16 +49,17 @@ export default function HeroSection() {
   );
 
   return (
+    <MotionProvider>
     <section className="relative mx-auto max-w-6xl px-5 pb-10 pt-10 md:px-8 md:pb-16 md:pt-16">
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-12">
         {/* ——— Copy column ——— */}
         <motion.div
-          initial={reduced ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, transform: "translateY(18px)" }}
+          animate={{ opacity: 1, transform: "translateY(0px)" }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
           <motion.p
-            initial={reduced ? false : { opacity: 0 }}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.15, duration: 0.5 }}
             className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent"
@@ -111,8 +113,8 @@ export default function HeroSection() {
 
         {/* ——— 3D station viewport ——— */}
         <motion.div
-          initial={reduced ? false : { opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, transform: "scale(0.97)" }}
+          animate={{ opacity: 1, transform: "scale(1)" }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
           className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-border/70 bg-surface/50 shadow-[0_24px_70px_-32px_color-mix(in_oklab,var(--accent)_40%,transparent)] md:aspect-[5/4]"
         >
@@ -150,5 +152,6 @@ export default function HeroSection() {
         </motion.div>
       </div>
     </section>
+    </MotionProvider>
   );
 }

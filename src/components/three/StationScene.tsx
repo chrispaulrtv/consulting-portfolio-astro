@@ -41,9 +41,9 @@ export const HOTSPOTS: HotspotDef[] = [
   {
     id: "projects",
     label: "Proyectos",
-    marker: [1.22, 2.52, 0.42],
-    cam: [2.25, 2.5, 2.35],
-    target: [1.2, 2.0, 0.4],
+    marker: [2.3, 2.55, 0.65],
+    cam: [3.5, 2.35, 3.0],
+    target: [2.26, 1.85, 0.65],
   },
   {
     id: "stack",
@@ -121,13 +121,21 @@ function HotspotMarker({
   const pulse = useRef<THREE.Group>(null);
   const ring = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const scaleRef = useRef(1);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, dt) => {
     if (!pulse.current || !ring.current) return;
     const t = clock.elapsedTime;
     const wave = 1 + Math.sin(t * 2.4 + def.marker[0]) * 0.12;
-    const scale = active ? 1.35 : hovered ? 1.18 : 1;
-    pulse.current.scale.setScalar(scale * wave);
+    const target = (active ? 1.35 : pressed ? 0.9 : hovered ? 1.18 : 1) * wave;
+    // ~110ms settle: press reads instantly, release eases back
+    scaleRef.current = THREE.MathUtils.lerp(
+      scaleRef.current,
+      target,
+      1 - Math.exp(-14 * Math.min(dt, 0.1))
+    );
+    pulse.current.scale.setScalar(scaleRef.current);
     pulse.current.position.y = Math.sin(t * 1.6) * 0.04;
     ring.current.rotation.z = t * 0.6;
   });
@@ -169,7 +177,7 @@ function HotspotMarker({
             toneMapped={false}
           />
         </mesh>
-        <Html position={[0, 0.24, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <Html position={[0, 0.24, 0]} center style={{ pointerEvents: "none" }}>
           <div
             className={`station-label${active || hovered ? " station-label--visible" : ""}${active ? " station-label--active" : ""}`}
           >
@@ -195,7 +203,13 @@ function HotspotMarker({
             onSelect(def.id);
           }}
           onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
+          onPointerLeave={() => {
+            setHovered(false);
+            setPressed(false);
+          }}
+          onPointerDown={() => setPressed(true)}
+          onPointerUp={() => setPressed(false)}
+          onPointerCancel={() => setPressed(false)}
           onFocus={() => setHovered(true)}
           onBlur={() => setHovered(false)}
           className="station-hotspot-btn"

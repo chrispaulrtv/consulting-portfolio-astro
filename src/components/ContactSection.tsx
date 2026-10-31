@@ -3,9 +3,11 @@ import { Mail } from "lucide-react";
 import { LinkedinIcon, GithubIcon } from "./ui/brand-icons";
 import { personalInfo } from "@/lib/data";
 import MotionWrapper from "./MotionWrapper";
+import MotionProvider from "./MotionProvider";
 
 export default function ContactSection() {
   return (
+    <MotionProvider>
     <section
       id="contact"
       className="relative overflow-hidden border-t border-border/50 py-16 md:py-20"
@@ -89,5 +91,6 @@ export default function ContactSection() {
         </MotionWrapper>
       </div>
     </section>
+    </MotionProvider>
   );
 }

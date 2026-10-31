@@ -204,7 +204,7 @@ function Phone({
   position?: [number, number, number];
 }) {
   return (
-    <group position={position} rotation={[0.12, -0.5, 0.08]}>
+    <group position={position} rotation={[0.12, 0.2, 0.08]}>
       <RoundedBox args={[0.3, 0.6, 0.035]} radius={0.035} smoothness={3}>
         <meshStandardMaterial color={p.bezel} roughness={0.35} metalness={0.5} />
       </RoundedBox>
@@ -426,5 +426,5 @@ export function Workstation({
 }
 
 export function FloatingPhone({ p }: { p: StationPalette }) {
-  return <Phone p={p} position={[1.22, 1.95, 0.42]} />;
+  return <Phone p={p} position={[2.3, 1.95, 0.65]} />;
 }

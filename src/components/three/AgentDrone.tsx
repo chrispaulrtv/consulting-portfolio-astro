@@ -169,7 +169,6 @@ export default function AgentDrone({ p, reduced, message, onClick }: AgentDroneP
         <Html
           position={[0, 0.5, 0]}
           center
-          distanceFactor={8}
           style={{ pointerEvents: "none" }}
         >
           <div className="station-bubble">{message}</div>

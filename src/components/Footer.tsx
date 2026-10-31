@@ -1,8 +1,10 @@
 import { personalInfo } from "@/lib/data";
+import MotionProvider from "./MotionProvider";
 import { Music2 } from "lucide-react";
 
 export default function Footer() {
   return (
+    <MotionProvider>
     <footer className="border-t border-border/50 py-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 md:flex-row md:px-8">
         <p className="text-[13px] text-muted-foreground">
@@ -28,5 +30,6 @@ export default function Footer() {
         </p>
       </div>
     </footer>
+    </MotionProvider>
   );
 }

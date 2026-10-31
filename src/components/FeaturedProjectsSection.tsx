@@ -2,9 +2,11 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { featuredProjects } from "@/lib/data";
 import MotionWrapper from "./MotionWrapper";
+import MotionProvider from "./MotionProvider";
 
 export default function FeaturedProjectsSection() {
   return (
+    <MotionProvider>
     <section
       id="projects"
       className="border-y border-border/50 bg-surface/40 py-16 md:py-20"
@@ -79,5 +81,6 @@ export default function FeaturedProjectsSection() {
         </div>
       </div>
     </section>
+    </MotionProvider>
   );
 }

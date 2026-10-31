@@ -1,6 +1,7 @@
 import { skills } from "@/lib/data";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
+import MotionProvider from "./MotionProvider";
 
 const groups: Array<{ title: string; items: string[] }> = [
   { title: "Lenguajes", items: skills.programmingLanguages },
@@ -32,6 +33,7 @@ function SkillTag({ skill, index }: { skill: string; index: number }) {
 
 export default function SkillsSection() {
   return (
+    <MotionProvider>
     <section id="skills" className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
       <MotionWrapper>
         <div className="mb-9 flex items-end justify-between gap-4">
@@ -66,5 +68,6 @@ export default function SkillsSection() {
         ))}
       </div>
     </section>
+    </MotionProvider>
   );
 }

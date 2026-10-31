@@ -47,8 +47,9 @@ export default function TimelineItem({
         {!isLast && (
           <motion.div
             className="w-px grow bg-gradient-to-b from-accent/50 to-border/30"
-            initial={{ height: 0 }}
-            whileInView={{ height: "100%" }}
+            style={{ transformOrigin: "top" }}
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
             transition={{ duration: 0.7, delay: index * 0.12 + 0.25 }}
             viewport={{ once: true, margin: "-60px" }}
           />

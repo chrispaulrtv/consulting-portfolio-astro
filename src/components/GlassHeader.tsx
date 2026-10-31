@@ -3,6 +3,7 @@ import { personalInfo } from "@/lib/data";
 import { useState } from "react";
 import { Menu, X, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import MotionProvider from "./MotionProvider";
 
 const navItems = [
   { id: "experience", label: "Experiencia" },
@@ -17,6 +18,7 @@ export default function GlassHeader() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
+    <MotionProvider>
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/75 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 md:px-8">
         <motion.a href="/" className="font-display text-[15px] font-bold tracking-tight">
@@ -33,7 +35,7 @@ export default function GlassHeader() {
               className="group relative text-foreground/75 transition-colors hover:text-foreground"
             >
               {item.label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-200 ease-out group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-[width] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:w-full" />
             </a>
           ))}
         </nav>
@@ -83,5 +85,6 @@ export default function GlassHeader() {
         )}
       </AnimatePresence>
     </header>
+    </MotionProvider>
   );
 }
