@@ -18,7 +18,8 @@ const AGENT_LINES: Record<StationHotspotId, string> = {
   music: "Cuando no hay deploy, hay beats.",
 };
 
-const AGENT_IDLE = "Hola — toca un punto de la estación para explorar.";
+const AGENT_IDLE =
+  "Hola — toca un punto de la estación, o escríbeme por el chat de la esquina.";
 
 export default function HeroSection() {
   const [active, setActive] = useState<StationHotspotId | null>(null);
