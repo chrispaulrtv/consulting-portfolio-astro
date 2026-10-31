@@ -51,3 +51,22 @@ Para lograr que el agente interactúe de forma fluida con el usuario, el redise�
     *   *Teclado Custom / Interfaz de Terminal:* Abre las estadísticas de herramientas (Neovim, Docker).
     *   *Auriculares:* Reproduce o enlaza a la música de Errante Chr.
 *   **Presencia del Agente:** El agente puede representarse como una terminal holográfica flotante que se despliega junto al setup, o como un pequeño dron/bot animado que vuela hacia donde el usuario hace clic.
+
+---
+
+## 4. Chat del Agente (Fase D — implementada)
+
+El chat vive en un widget flotante (terminal `›_`, esquina inferior derecha) y un endpoint serverless `POST /api/chat` (`api/chat.js`, Vercel Node function).
+
+### Configuración (Vercel → Settings → Environment Variables)
+
+| Variable | Default | Descripción |
+|----------|---------|-------------|
+| `CHAT_BASE_URL` | `https://opencode.ai/zen/go/v1` | Endpoint OpenAI-compatible (OpenCode Go) |
+| `CHAT_API_KEY` | *(vacía)* | **Sin esta key el endpoint responde en MODO DEMO** con respuestas guionizadas del knowledge base |
+| `CHAT_MODEL` | `opencode-go/minimax-m3.1-flash` | Modelo a usar |
+
+*   **Fallbacks:** si el proveedor falla (p.ej. Go en modo whitelist-only), el endpoint devuelve respuesta demo en vez de error; si la red falla en el cliente, el widget muestra un mensaje con el correo de contacto.
+*   **Alternativa gratuita:** cambiar las3 variables por el free tier de Google Gemini (`https://generativelanguage.googleapis.com/v1beta/openai`, key de aistudio.google.com) o Groq — sin tocar código.
+*   **Protecciones:** rate limit best-effort (12 msg/min por IP), últimos10 mensajes, 2000 chars por mensaje, `max_tokens: 300` (respuestas cortas para la burbuja).
+*   **Reglas del system prompt:** derivado de este knowledge base — no inventar datos, responder en el idioma del usuario, máximo3 oraciones, nunca decir "Tech Lead", derivar consultas empresariales a RinnoTec.
