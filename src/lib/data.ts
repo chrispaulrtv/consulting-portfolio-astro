@@ -1,14 +1,14 @@
 export const personalInfo = {
   name: "Christian Paul Reinoso",
   fullName: "Christian Paul Reinoso Salazar",
-  role: "Senior Software Engineer & Tech Lead",
+  role: "Senior Consultant Developer",
   location: "Ambato, Ecuador · Remoto worldwide",
   email: "chrispaulrtv@rinnotec.com",
   github: "https://github.com/chrispaulrtv",
   linkedin: "https://www.linkedin.com/in/christian-reinoso/",
   profilePicture: "/profile-512.jpg",
   heroDescription:
-    "Diseño y escalo software para el sector bancario y fintech. Tech Lead en Thoughtworks, fundador de RinnoTec. Especialista en React Native y NestJS: entro a donde hay deuda técnica compleja y la convierto en arquitectura que el equipo puede mantener.",
+    "Diseño y escalo software para el sector bancario y fintech. Consultor Senior en Thoughtworks, fundador de RinnoTec. Especialista en React Native y NestJS: entro a donde hay deuda técnica compleja y la convierto en arquitectura que el equipo puede mantener.",
   music: {
     alias: "Errante Chr",
     url: "https://open.spotify.com/artist/5Me73cFOokmGThnvUxnzwo?si=0cbbZKTkSnKMVZMtVm-tag",
@@ -22,7 +22,7 @@ export const workExperience = [
   {
     company: "Thoughtworks",
     location: "Ecuador (Remote)",
-    position: "Senior Consultant Developer · Tech Lead",
+    position: "Senior Consultant Developer",
     period: "Jul 2025 - Presente",
     highlight: "Banca",
     achievements: [
