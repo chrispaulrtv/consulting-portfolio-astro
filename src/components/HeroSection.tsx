@@ -1,131 +1,153 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Mail, MapPin, Sparkles } from "lucide-react";
+import { LinkedinIcon } from "./ui/brand-icons";
 import { personalInfo } from "@/lib/data";
-import { Mail, Github, MapPin, Linkedin } from "lucide-react";
-import { motion } from "framer-motion";
-import MotionWrapper from "./MotionWrapper";
+import { useIsDark, useMediaQuery, usePrefersReducedMotion } from "@/lib/hooks";
+import StationScene, {
+  type StationHotspotId,
+} from "./three/StationScene";
+import StationPanel from "./StationPanel";
+
+const AGENT_LINES: Record<StationHotspotId, string> = {
+  experience: "Lo bancario empezó en Thoughtworks. Sigue explorando.",
+  saas: "RinnFac: mi SaaS multi-tenant. La factura electrónica, resuelta.",
+  projects: "Fuera del trabajo consultorio también construyo lo mío.",
+  stack: "Esta es mi caja de herramientas diaria.",
+  music: "Cuando no hay deploy, hay beats.",
+};
+
+const AGENT_IDLE = "Hola — toca un punto de la estación para explorar.";
 
 export default function HeroSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
+  const [active, setActive] = useState<StationHotspotId | null>(null);
+  const [agentMessage, setAgentMessage] = useState<string | null>(null);
+  const [hintVisible, setHintVisible] = useState(true);
+  const timeoutRef = useRef<number | undefined>(undefined);
 
-  const childVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
+  const isDark = useIsDark();
+  const reduced = usePrefersReducedMotion();
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
+  const say = useCallback((line: string, ms = 4200) => {
+    window.clearTimeout(timeoutRef.current);
+    setAgentMessage(line);
+    timeoutRef.current = window.setTimeout(() => setAgentMessage(null), ms);
+  }, []);
+
+  useEffect(() => () => window.clearTimeout(timeoutRef.current), []);
+
+  const handleSelect = useCallback(
+    (id: StationHotspotId | null) => {
+      setActive(id);
+      setHintVisible(false);
+      if (id) say(AGENT_LINES[id]);
+      else setAgentMessage(null);
     },
-  };
+    [say]
+  );
 
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden">
-      <div className="container max-w-4xl mx-auto px-6 md:px-4 relative z-10">
+    <section className="relative mx-auto max-w-6xl px-5 pb-10 pt-10 md:px-8 md:pb-16 md:pt-16">
+      <div className="grid items-center gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-12">
+        {/* ——— Copy column ——— */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-center justify-between mb-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          initial={reduced ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className="text-center md:text-left">
-            <motion.h1
-              className="text-4xl font-bold mb-2"
-              variants={childVariants}
-            >
-              {personalInfo.name}{" "}
-              <span className="inline-block animate-pulse">✨</span>
-            </motion.h1>
+          <motion.p
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15, duration: 0.5 }}
+            className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent"
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+            </span>
+            Disponible para proyectos
+          </motion.p>
 
-            <motion.p
-              className="text-xl text-muted-foreground mb-6"
-              variants={childVariants}
-            >
-              Software Engineer 👨‍💻
-            </motion.p>
+          <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight md:text-5xl">
+            {personalInfo.name}
+          </h1>
+          <p className="mt-2 font-display text-lg font-medium text-muted-foreground md:text-xl">
+            {personalInfo.role}
+          </p>
 
-            <motion.div
-              className="flex flex-col gap-2 items-center md:items-start"
-              variants={containerVariants}
-            >
-              <motion.div
-                className="flex items-center text-sm text-muted-foreground"
-                variants={childVariants}
-                whileHover={{ scale: 1.05, color: "#4b5563" }}
-              >
-                <MapPin className="h-4 w-4 mr-2" />
-                📍 {personalInfo.location}
-              </motion.div>
-
-              <motion.a
-                href={`mailto:${personalInfo.email}`}
-                className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-                variants={childVariants}
-                whileHover={{ scale: 1.05, color: "#4b5563" }}
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                ✉️ {personalInfo.email}
-              </motion.a>
-
-              <motion.a
-                href={personalInfo.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-                variants={childVariants}
-                whileHover={{ scale: 1.05, color: "#4b5563" }}
-              >
-                <Github className="h-4 w-4 mr-2" />
-                🌟 GitHub
-              </motion.a>
-
-              <motion.a
-                href={personalInfo.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-                variants={childVariants}
-                whileHover={{ scale: 1.05, color: "#4b5563" }}
-              >
-                <Linkedin className="h-4 w-4 mr-2" />
-                🔗 LinkedIn
-              </motion.a>
-            </motion.div>
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin size={14} className="text-accent" />
+              {personalInfo.location}
+            </span>
           </div>
 
-          <motion.div
-            className="mt-6 md:mt-0 flex justify-center"
-            variants={childVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-              <img
-                src={personalInfo.profilePicture}
-                alt="Profile"
-                className="w-48 md:w-60 rounded-full relative ring-2 ring-purple-500/50"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-          </motion.div>
+          <p className="mt-5 max-w-[46ch] text-[15px] leading-relaxed text-muted-foreground">
+            {personalInfo.heroDescription}
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <motion.a
+              href={`mailto:${personalInfo.email}`}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 rounded-md bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-transform duration-150 ease-out hover:-translate-y-0.5"
+            >
+              <Mail size={15} />
+              Hablemos de tu proyecto
+            </motion.a>
+            <motion.a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2.5 text-sm font-semibold transition-colors duration-150 hover:border-accent hover:text-accent"
+            >
+              <LinkedinIcon size={15} />
+              LinkedIn
+            </motion.a>
+          </div>
         </motion.div>
 
-        <MotionWrapper>
-          <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm backdrop-filter p-4 rounded-lg border border-purple-500/20 dark:border-purple-500/10 shadow-sm">
-            <p className="text-muted-foreground pl-4 py-2 mb-4 relative">
-              <span className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
-              {personalInfo.heroDescription}
-            </p>
-          </div>
-        </MotionWrapper>
+        {/* ——— 3D station viewport ——— */}
+        <motion.div
+          initial={reduced ? false : { opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-border/70 bg-surface/50 shadow-[0_24px_70px_-32px_color-mix(in_oklab,var(--accent)_40%,transparent)] md:aspect-[5/4]"
+        >
+          <StationScene
+            active={active}
+            onSelect={handleSelect}
+            isDark={isDark}
+            reduced={reduced}
+            isMobile={isMobile}
+            agentMessage={agentMessage}
+            onAgentClick={() => say(AGENT_IDLE, 3800)}
+          />
+
+          {/* hint bar */}
+          <AnimatePresence>
+            {hintVisible && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: reduced ? 0 : 1.6, duration: 0.4 } }}
+                exit={{ opacity: 0, y: 8, transition: { duration: 0.22, ease: "easeIn" } }}
+                className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center"
+              >
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-[11px] font-medium text-muted-foreground backdrop-blur-md">
+                  <Sparkles size={11} className="text-accent" />
+                  Toca los puntos para explorar la estación
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* hotspot panel */}
+          <AnimatePresence mode="wait">
+            <StationPanel active={active} onClose={() => handleSelect(null)} />
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

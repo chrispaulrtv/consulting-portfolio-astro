@@ -1,63 +1,60 @@
-import { workExperience } from "@/lib/data";
+import { workExperience, education } from "@/lib/data";
 import TimelineItem from "./TimelineItem";
-import { Briefcase } from "lucide-react";
+import { Briefcase, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
 
 export default function ExperienceSection() {
   return (
-    <section
-      id="experience"
-      className="py-12 bg-gradient-to-b from-muted/20 to-background"
-    >
-      <div className="container max-w-4xl mx-auto px-6 md:px-4">
+    <section id="experience" className="border-t border-border/50 py-16 md:py-20">
+      <div className="mx-auto max-w-6xl px-5 md:px-8">
         <MotionWrapper>
-          <h2 className="text-2xl font-bold mb-8 text-center md:text-left flex items-center md:inline-block">
-            <motion.span
-              className="inline-block mr-2"
-              initial={{ rotate: 0 }}
-              whileInView={{ rotate: [0, -10, 10, -5, 5, 0] }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              💼
-            </motion.span>{" "}
-            Work Experience
-          </h2>
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+              Trayectoria
+            </h2>
+            <p className="hidden max-w-[36ch] text-right text-sm text-muted-foreground md:block">
+              De wallets en Panamá a plataformas bancarias con Thoughtworks.
+            </p>
+          </div>
         </MotionWrapper>
-        <div className="mb-8">
+
+        <div className="mb-12">
           {workExperience.map((job, index) => (
             <TimelineItem
               key={job.company + job.period}
-              title={`👨‍💻 ${job.position} | ${job.company}`}
-              subtitle={`🌍 ${job.location}`}
-              date={`📅 ${job.period}`}
+              title={job.position}
+              subtitle={job.company}
+              meta={job.location}
+              date={job.period}
+              badge={job.highlight}
               isLast={index === workExperience.length - 1}
               index={index}
             >
               <motion.div
-                className="mt-3 p-4 bg-background/80 backdrop-blur-sm backdrop-filter rounded-lg border border-purple-500/20 dark:bg-card/10 dark:border-purple-500/10 shadow-sm"
-                initial={{ opacity: 0, y: 20 }}
+                className="mt-3 rounded-lg border border-border/60 bg-card/40 p-4"
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{ duration: 0.4, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
                 viewport={{ once: true }}
               >
-                <div className="flex items-center mb-3">
-                  <div className="h-6 w-6 flex items-center justify-center rounded-full bg-purple-500/10 mr-2">
-                    <Briefcase className="h-4 w-4 text-purple-500" />
-                  </div>
-                  <h4 className="text-sm font-medium">Key Achievements</h4>
+                <div className="mb-2.5 flex items-center gap-2">
+                  <Briefcase size={13} className="text-accent" />
+                  <h4 className="font-display text-[12px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    Logros clave
+                  </h4>
                 </div>
-                <ul className="list-none ml-4 space-y-2 text-sm">
+                <ul className="ml-1 space-y-2 text-sm">
                   {job.achievements.map((achievement, i) => (
                     <motion.li
                       key={i}
-                      className="text-muted-foreground relative pl-6"
-                      initial={{ opacity: 0, x: -10 }}
+                      className="flex items-start gap-2.5 text-muted-foreground"
+                      initial={{ opacity: 0, x: -6 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: 0.1 * i }}
+                      transition={{ duration: 0.3, delay: 0.08 * i }}
                       viewport={{ once: true }}
                     >
+                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-warm" />
                       {achievement}
                     </motion.li>
                   ))}
@@ -66,6 +63,22 @@ export default function ExperienceSection() {
             </TimelineItem>
           ))}
         </div>
+
+        {/* Education — quiet footnote, not a timeline */}
+        <MotionWrapper>
+          <div className="flex items-center gap-3 border-t border-border/50 pt-6">
+            <GraduationCap size={16} className="text-accent" />
+            {education.map((edu) => (
+              <p key={edu.institution} className="text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">{edu.degree}</span>
+                <span className="mx-2 text-border">·</span>
+                {edu.institution}
+                <span className="mx-2 text-border">·</span>
+                {edu.period}
+              </p>
+            ))}
+          </div>
+        </MotionWrapper>
       </div>
     </section>
   );

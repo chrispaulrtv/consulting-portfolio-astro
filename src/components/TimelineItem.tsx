@@ -5,7 +5,9 @@ import { motion } from "framer-motion";
 interface TimelineItemProps {
   title: string;
   subtitle: string;
+  meta?: string;
   date: string;
+  badge?: string;
   isLast?: boolean;
   index?: number;
   children?: React.ReactNode;
@@ -14,59 +16,65 @@ interface TimelineItemProps {
 export default function TimelineItem({
   title,
   subtitle,
+  meta,
   date,
+  badge,
   isLast = false,
   index = 0,
   children,
 }: TimelineItemProps) {
   return (
     <motion.div
-      className="relative flex gap-6"
-      initial={{ opacity: 0, y: 20 }}
+      className="relative flex gap-5"
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.2 }}
-      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.45, delay: index * 0.12, ease: [0.23, 1, 0.32, 1] }}
+      viewport={{ once: true, margin: "-60px" }}
     >
       <div className="flex flex-col items-center">
         <motion.div
-          className="flex h-[18px] w-[18px] rounded-full border border-purple-500/50 bg-background dark:bg-muted z-10"
+          className="z-10 mt-1.5 h-3 w-3 rounded-full border-2 border-accent bg-background"
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
           transition={{
             type: "spring",
-            stiffness: 300,
-            damping: 15,
-            delay: index * 0.2 + 0.2,
+            stiffness: 420,
+            damping: 22,
+            delay: index * 0.12 + 0.15,
           }}
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "-60px" }}
         />
         {!isLast && (
           <motion.div
-            className="w-px grow bg-gradient-to-b from-purple-500/50 to-pink-500/30 dark:from-purple-500/30 dark:to-pink-500/10"
+            className="w-px grow bg-gradient-to-b from-accent/50 to-border/30"
             initial={{ height: 0 }}
             whileInView={{ height: "100%" }}
-            transition={{ duration: 0.8, delay: index * 0.2 + 0.3 }}
-            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, delay: index * 0.12 + 0.25 }}
+            viewport={{ once: true, margin: "-60px" }}
           />
         )}
       </div>
-      <div className={cn("pb-8", isLast ? "pb-0" : "")}>
-        <motion.div
-          className="flex flex-col gap-0.5"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.2 + 0.1 }}
-          viewport={{ once: true, margin: "-50px" }}
-        >
-          <h3 className="font-medium">{title}</h3>
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
-          <p className="text-xs text-muted-foreground/70 mb-2">{date}</p>
-        </motion.div>
+      <div className={cn("pb-9", isLast ? "pb-0" : "")}>
+        <div className="flex flex-col">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <h3 className="font-display text-[17px] font-bold tracking-tight">{title}</h3>
+            {badge && (
+              <span className="rounded-full border border-warm/40 bg-warm/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-warm">
+                {badge}
+              </span>
+            )}
+          </div>
+          <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 text-sm">
+            <span className="font-medium text-foreground/90">{subtitle}</span>
+            {meta && <span className="text-muted-foreground">· {meta}</span>}
+          </div>
+          <p className="mt-0.5 font-mono text-[11px] tracking-tight text-accent">{date}</p>
+        </div>
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: index * 0.2 + 0.4 }}
-          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.4, delay: index * 0.12 + 0.25 }}
+          viewport={{ once: true }}
         >
           {children}
         </motion.div>

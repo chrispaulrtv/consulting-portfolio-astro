@@ -1,77 +1,81 @@
 import ThemeToggle from "./ui/theme-toggle";
 import { personalInfo } from "@/lib/data";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+const navItems = [
+  { id: "experience", label: "Experiencia" },
+  { id: "projects", label: "Proyectos" },
+  { id: "skills", label: "Stack" },
+  { id: "services", label: "Servicios" },
+];
 
 export default function GlassHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const navItems = ["experience", "skills", "services"];
-
   return (
-    <header className="sticky z-50 w-full backdrop-blur-md backdrop-filter bg-background/70 dark:bg-background/40 border-b border-border/40">
-      <div className="container max-w-4xl mx-auto p-4 flex justify-between items-center">
-        <motion.a
-          className="flex items-center text-lg font-bold"
-          href="/"
-          whileHover={{ scale: 1.05 }}
-        >
-          🚀 {personalInfo.name}
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/75 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 md:px-8">
+        <motion.a href="/" className="font-display text-[15px] font-bold tracking-tight">
+          {personalInfo.name.split(" ")[0]}
+          <span className="text-accent">.</span>
         </motion.a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          {navItems.map((item, index) => (
-            <motion.a
-              key={item}
-              href={`#${item}`}
-              className="transition-colors hover:text-purple-500 text-foreground/80"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: index * 0.1 }}
+        <nav className="hidden items-center gap-7 text-[13px] font-medium md:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className="group relative text-foreground/75 transition-colors hover:text-foreground"
             >
-              {item === "experience" && "Consultoría"} {/* Rename visual */}
-              {item === "skills" && "Stack"}
-              {item === "services" && "Soluciones"}
-            </motion.a>
+              {item.label}
+              <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-200 ease-out group-hover:w-full" />
+            </a>
           ))}
         </nav>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
+          <a
+            href={`mailto:${personalInfo.email}`}
+            className="hidden items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-[13px] font-semibold transition-colors duration-150 hover:border-accent hover:text-accent md:inline-flex"
+          >
+            <Mail size={13} />
+            Contacto
+          </a>
           <ThemeToggle />
-          <motion.button
-            className="md:hidden p-2 text-foreground"
+          <button
+            className="p-2 text-foreground md:hidden"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Navigation (Misma lógica simplificada) */}
+      {/* Mobile Navigation */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="md:hidden py-4 px-4 border-t border-border/10 backdrop-blur-md bg-background/90"
+            className="border-t border-border/40 bg-background/95 px-5 py-4 backdrop-blur-md md:hidden"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
           >
-            <nav className="flex flex-col space-y-4 text-sm font-medium">
+            <nav className="flex flex-col gap-4 text-sm font-medium">
               {navItems.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item}`}
-                  className="py-2"
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className="py-1"
                   onClick={toggleMenu}
                 >
-                  {item === "experience" && "💼 Consultoría"}
-                  {item === "skills" && "🛠️ Stack"}
-                  {item === "services" && "🚀 Soluciones"}
+                  {item.label}
                 </a>
               ))}
             </nav>

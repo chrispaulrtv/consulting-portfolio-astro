@@ -9,14 +9,14 @@ interface MotionWrapperProps extends MotionProps {
 
 // Default animations for sections
 const defaultAnimations = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 14 },
   visible: (delay: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.5,
       delay: delay,
-      ease: "easeOut",
+      ease: [0.23, 1, 0.32, 1] as [number, number, number, number],
     },
   }),
 };
