@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OG — Christian Paul Reinoso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        position: relative;
+        background: #0b1020;
+        color: #e9eef8;
+        font-family: "Inter", sans-serif;
+      }
+
+      /* engineering grid, masked */
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(233, 238, 248, 0.07) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(233, 238, 248, 0.07) 1px, transparent 1px);
+        background-size: 56px 56px;
+        -webkit-mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black 30%, transparent 80%);
+        mask-image: radial-gradient(ellipse 90% 80% at 30% 20%, black 30%, transparent 80%);
+      }
+      .glow {
+        position: absolute;
+        top: -220px;
+        right: -160px;
+        width: 720px;
+        height: 620px;
+        background: radial-gradient(closest-side, #4fd1c5, transparent 70%);
+        opacity: 0.16;
+      }
+      .glow-warm {
+        position: absolute;
+        bottom: -260px;
+        left: 30%;
+        width: 560px;
+        height: 520px;
+        background: radial-gradient(closest-side, #f2a65a, transparent 70%);
+        opacity: 0.07;
+      }
+
+      /* giant monogram watermark, right */
+      .watermark {
+        position: absolute;
+        right: -130px;
+        bottom: -170px;
+        width: 640px;
+        height: 640px;
+        opacity: 0.05;
+      }
+
+      .content {
+        position: absolute;
+        inset: 0;
+        padding: 68px 72px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .brand { display: flex; align-items: center; gap: 22px; }
+      .monogram {
+        width: 84px;
+        height: 84px;
+        border-radius: 19px;
+        background: #0e1526;
+        border: 1.5px solid rgba(79, 209, 197, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 40px -12px rgba(79, 209, 197, 0.45);
+      }
+      .brand-url {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 24px;
+        font-weight: 500;
+        color: rgba(233, 238, 248, 0.55);
+        letter-spacing: 0.01em;
+      }
+      .brand-url b { color: #4fd1c5; font-weight: 600; }
+
+      .headline h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 72px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.02;
+        max-width: 15ch;
+      }
+      .headline .role {
+        margin-top: 18px;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 33px;
+        font-weight: 600;
+        color: #4fd1c5;
+        letter-spacing: -0.01em;
+      }
+      .headline .where {
+        margin-top: 10px;
+        font-size: 22px;
+        color: rgba(233, 238, 248, 0.55);
+      }
+
+      .chips { display: flex; gap: 12px; }
+      .chip {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 19px;
+        font-weight: 500;
+        white-space: nowrap;
+        color: rgba(233, 238, 248, 0.78);
+        border: 1.5px solid rgba(233, 238, 248, 0.16);
+        background: rgba(233, 238, 248, 0.04);
+        border-radius: 11px;
+        padding: 11px 20px;
+      }
+      .chip.warm { color: #f2a65a; border-color: rgba(242, 166, 90, 0.35); }
+
+      /* hotspot beacon echo, floats near watermark */
+      .beacon { position: absolute; right: 356px; top: 168px; }
+    </style>
+  </head>
+  <body>
+    <div class="grid"></div>
+    <div class="glow"></div>
+    <div class="glow-warm"></div>
+
+    <!-- giant C watermark -->
+    <svg class="watermark" viewBox="0 0 64 64">
+      <path d="M 38.5 22.4 A 15 15 0 1 0 38.5 41.6" fill="none" stroke="#E9EEF8" stroke-width="8" stroke-linecap="round" />
+      <circle cx="49.5" cy="42" r="4.5" fill="#4FD1C5" />
+    </svg>
+
+    <!-- beacon ring (3D hotspot echo) -->
+    <svg class="beacon" width="74" height="74" viewBox="0 0 74 74">
+      <circle cx="37" cy="37" r="26" fill="none" stroke="#4FD1C5" stroke-width="3.5" />
+      <circle cx="37" cy="37" r="8" fill="#4FD1C5" />
+      <circle cx="37" cy="37" r="34" fill="none" stroke="#4FD1C5" stroke-width="1.5" opacity="0.35" />
+    </svg>
+
+    <div class="content">
+      <div class="brand">
+        <div class="monogram">
+          <svg width="52" height="52" viewBox="0 0 64 64">
+            <path d="M 38.5 22.4 A 15 15 0 1 0 38.5 41.6" fill="none" stroke="#E9EEF8" stroke-width="8" stroke-linecap="round" />
+            <circle cx="49.5" cy="42" r="4.5" fill="#4FD1C5" />
+          </svg>
+        </div>
+        <div class="brand-url">chrispaulrtv.<b>rinnotec.com</b></div>
+      </div>
+
+      <div class="headline">
+        <h1>Christian Paul Reinoso</h1>
+        <div class="role">Senior Consultant Developer</div>
+        <div class="where">Banca &amp; fintech con React Native y NestJS · Ambato, Ecuador — remoto worldwide</div>
+      </div>
+
+      <div class="chips">
+        <span class="chip">Thoughtworks</span>
+        <span class="chip">React Native · NestJS</span>
+        <span class="chip">Fundador de RinnFac</span>
+        <span class="chip warm">Disponible para proyectos</span>
+      </div>
+    </div>
+  </body>
+</html>

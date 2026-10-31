@@ -14,7 +14,7 @@ export default function Footer() {
           href={personalInfo.music.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-1.5 text-[13px] text-muted-foreground/70 transition-colors duration-150 hover:text-warm"
+          className="group inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors duration-150 hover:text-warm"
         >
           <Music2 size={13} />
           También sueno como{" "}
@@ -23,7 +23,7 @@ export default function Footer() {
           </span>
         </a>
 
-        <p className="text-[13px] text-muted-foreground/70">
+        <p className="text-[13px] text-muted-foreground">
           Hecho con Astro, React y Three.js
         </p>
       </div>
