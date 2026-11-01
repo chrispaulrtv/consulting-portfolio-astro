@@ -1,26 +1,29 @@
-import { services } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import { ArrowRight, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
 import MotionProvider from "./MotionProvider";
 
-export default function ProjectsSection() {
+export default function ProjectsSection({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const s = t.ui.sections.services;
+
   return (
     <MotionProvider>
     <section id="services" className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
       <MotionWrapper>
         <div className="mb-9 flex items-end justify-between gap-4">
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-            Soluciones & servicios
+            {s.title}
           </h2>
           <p className="hidden max-w-[38ch] text-right text-sm text-muted-foreground md:block">
-            Formas concretas de trabajar juntos, sin onboarding largo ni sorpresas.
+            {s.sub}
           </p>
         </div>
       </MotionWrapper>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-        {services.map((service, index) => (
+        {t.services.map((service, index) => (
           <motion.div
             key={service.title}
             initial={{ opacity: 0, y: 16 }}

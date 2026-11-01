@@ -1,10 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { featuredProjects } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import MotionWrapper from "./MotionWrapper";
 import MotionProvider from "./MotionProvider";
 
-export default function FeaturedProjectsSection() {
+export default function FeaturedProjectsSection({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const p = t.ui.sections.projects;
+
   return (
     <MotionProvider>
     <section
@@ -15,16 +18,16 @@ export default function FeaturedProjectsSection() {
         <MotionWrapper>
           <div className="mb-10 flex items-end justify-between gap-4">
             <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-              Proyectos propios
+              {p.title}
             </h2>
             <p className="hidden max-w-[38ch] text-right text-sm text-muted-foreground md:block">
-              Producto, arquitectura y negocio: lo que construyo cuando no hay cliente de por medio.
+              {p.sub}
             </p>
           </div>
         </MotionWrapper>
 
         <div>
-          {featuredProjects.map((project, i) => (
+          {t.featuredProjects.map((project, i) => (
             <motion.article
               key={project.name}
               initial={{ opacity: 0, y: 16 }}

@@ -1,11 +1,14 @@
-import { workExperience, education } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import TimelineItem from "./TimelineItem";
 import { Briefcase, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
 import MotionProvider from "./MotionProvider";
 
-export default function ExperienceSection() {
+export default function ExperienceSection({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const x = t.ui.sections.experience;
+
   return (
     <MotionProvider>
     <section id="experience" className="border-t border-border/50 py-16 md:py-20">
@@ -13,16 +16,16 @@ export default function ExperienceSection() {
         <MotionWrapper>
           <div className="mb-10 flex items-end justify-between gap-4">
             <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-              Trayectoria
+              {x.title}
             </h2>
             <p className="hidden max-w-[36ch] text-right text-sm text-muted-foreground md:block">
-              De wallets en Panamá a plataformas bancarias con Thoughtworks.
+              {x.sub}
             </p>
           </div>
         </MotionWrapper>
 
         <div className="mb-12">
-          {workExperience.map((job, index) => (
+          {t.workExperience.map((job, index) => (
             <TimelineItem
               key={job.company + job.period}
               title={job.position}
@@ -30,7 +33,7 @@ export default function ExperienceSection() {
               meta={job.location}
               date={job.period}
               badge={job.highlight}
-              isLast={index === workExperience.length - 1}
+              isLast={index === t.workExperience.length - 1}
               index={index}
             >
               <motion.div
@@ -43,7 +46,7 @@ export default function ExperienceSection() {
                 <div className="mb-2.5 flex items-center gap-2">
                   <Briefcase size={13} className="text-accent" />
                   <h4 className="font-display text-[12px] font-semibold uppercase tracking-widest text-muted-foreground">
-                    Logros clave
+                    {x.achievements}
                   </h4>
                 </div>
                 <ul className="ml-1 space-y-2 text-sm">
@@ -70,7 +73,7 @@ export default function ExperienceSection() {
         <MotionWrapper>
           <div className="flex items-center gap-3 border-t border-border/50 pt-6">
             <GraduationCap size={16} className="text-accent" />
-            {education.map((edu) => (
+            {t.education.map((edu) => (
               <p key={edu.institution} className="text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">{edu.degree}</span>
                 <span className="mx-2 text-border">·</span>

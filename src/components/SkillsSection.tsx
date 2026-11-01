@@ -1,16 +1,7 @@
-import { skills } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import { motion } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
 import MotionProvider from "./MotionProvider";
-
-const groups: Array<{ title: string; items: string[] }> = [
-  { title: "Lenguajes", items: skills.programmingLanguages },
-  { title: "Frontend & Mobile", items: skills.frontendDevelopment },
-  { title: "Backend", items: skills.backendDevelopment },
-  { title: "Datos", items: skills.databaseAndStorage },
-  { title: "Cloud & DevOps", items: skills.cloudAndDevOps },
-  { title: "Tools", items: skills.toolsAndServices },
-];
 
 function SkillTag({ skill, index }: { skill: string; index: number }) {
   return (
@@ -31,17 +22,29 @@ function SkillTag({ skill, index }: { skill: string; index: number }) {
   );
 }
 
-export default function SkillsSection() {
+export default function SkillsSection({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const g = t.ui.sections.skills.groups;
+
+  const groups: Array<{ title: string; items: string[] }> = [
+    { title: g.languages, items: t.skills.programmingLanguages },
+    { title: g.frontend, items: t.skills.frontendDevelopment },
+    { title: g.backend, items: t.skills.backendDevelopment },
+    { title: g.data, items: t.skills.databaseAndStorage },
+    { title: g.cloud, items: t.skills.cloudAndDevOps },
+    { title: g.tools, items: t.skills.toolsAndServices },
+  ];
+
   return (
     <MotionProvider>
     <section id="skills" className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
       <MotionWrapper>
         <div className="mb-9 flex items-end justify-between gap-4">
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-            Stack técnico
+            {t.ui.sections.skills.title}
           </h2>
           <p className="hidden max-w-[36ch] text-right text-sm text-muted-foreground md:block">
-            Las herramientas que uso a diario para llevar ideas de la pizarra a producción.
+            {t.ui.sections.skills.sub}
           </p>
         </div>
       </MotionWrapper>

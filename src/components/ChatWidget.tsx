@@ -2,20 +2,12 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ArrowUp } from "lucide-react";
 import MotionProvider from "./MotionProvider";
+import { content, type Locale } from "@/lib/content";
 
 interface Msg {
   role: "user" | "assistant";
   content: string;
 }
-
-const SEED: Msg = {
-  role: "assistant",
-  content:
-    "¡Hola! Soy el asistente de Christian. Pregúntame por su experiencia, proyectos o servicios.",
-};
-
-const OFFLINE_REPLY =
-  "No pude conectar con el asistente ahora mismo — escríbele directo a chrispaulrtv@rinnotec.com, responde personalmente.";
 
 function Bubble({ msg }: { msg: Msg }) {
   const isUser = msg.role === "user";
@@ -32,9 +24,13 @@ function Bubble({ msg }: { msg: Msg }) {
   );
 }
 
-export default function ChatWidget() {
+export default function ChatWidget({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const chat = t.ui.chat;
+  const seed: Msg = { role: "assistant", content: chat.seed };
+
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Msg[]>([SEED]);
+  const [messages, setMessages] = useState<Msg[]>([seed]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [demo, setDemo] = useState(false);
@@ -75,11 +71,11 @@ export default function ChatWidget() {
       const reply =
         r.ok && data.reply
           ? data.reply
-          : OFFLINE_REPLY;
+          : chat.offline;
       if (data.demo) setDemo(true);
       setMessages((m) => [...m, { role: "assistant", content: reply }]);
     } catch {
-      setMessages((m) => [...m, { role: "assistant", content: OFFLINE_REPLY }]);
+      setMessages((m) => [...m, { role: "assistant", content: chat.offline }]);
     } finally {
       setBusy(false);
     }
@@ -92,7 +88,7 @@ export default function ChatWidget() {
           {open && (
             <motion.div
               role="dialog"
-              aria-label="Chat con el asistente"
+              aria-label={chat.panelAria}
               initial={{ opacity: 0, y: 14, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.97, transition: { duration: 0.15 } }}
@@ -105,16 +101,17 @@ export default function ChatWidget() {
                 <span className="h-2 w-2 rounded-full bg-warm/70" aria-hidden="true" />
                 <span className="h-2 w-2 rounded-full bg-accent/60" aria-hidden="true" />
                 <span className="font-display text-xs font-semibold tracking-tight">
-                  asistente<span className="text-accent">.</span>
+                  {chat.title}
+                  <span className="text-accent">.</span>
                 </span>
                 {demo && (
                   <span className="rounded-full border border-warm/40 bg-warm/10 px-1.5 py-px text-[9px] font-semibold uppercase tracking-wider text-warm">
-                    demo
+                    {chat.demo}
                   </span>
                 )}
                 <button
                   onClick={() => setOpen(false)}
-                  aria-label="Cerrar chat"
+                  aria-label={chat.close}
                   className="ml-auto rounded-md p-1 text-muted-foreground transition-colors duration-150 hover:bg-muted hover:text-foreground active:scale-90"
                 >
                   <X size={14} />
@@ -144,15 +141,15 @@ export default function ChatWidget() {
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Pregúntame sobre Christian…"
+                  placeholder={chat.placeholder}
                   maxLength={2000}
-                  aria-label="Mensaje"
+                  aria-label={chat.inputAria}
                   className="min-w-0 flex-grow rounded-md border border-border/60 bg-surface/60 px-3 py-2 text-sm outline-none transition-colors duration-150 placeholder:text-muted-foreground/80 focus:border-accent/60"
                 />
                 <button
                   type="submit"
                   disabled={busy || !input.trim()}
-                  aria-label="Enviar mensaje"
+                  aria-label={chat.sendAria}
                   className="rounded-md bg-accent p-2 text-accent-foreground transition-transform duration-150 ease-out hover:-translate-y-0.5 active:scale-90 disabled:pointer-events-none disabled:opacity-40"
                 >
                   <ArrowUp size={15} />
@@ -165,7 +162,7 @@ export default function ChatWidget() {
         {/* launcher */}
         <motion.button
           onClick={() => setOpen((o) => !o)}
-          aria-label={open ? "Cerrar chat con el asistente" : "Abrir chat con el asistente"}
+          aria-label={open ? chat.closeAria : chat.openAria}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}

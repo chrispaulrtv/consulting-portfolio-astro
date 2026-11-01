@@ -1,27 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mail, MapPin, Sparkles } from "lucide-react";
-import { LinkedinIcon } from "./ui/brand-icons";
-import { personalInfo } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import { useIsDark, useMediaQuery, usePrefersReducedMotion } from "@/lib/hooks";
 import StationScene, {
   type StationHotspotId,
 } from "./three/StationScene";
 import StationPanel from "./StationPanel";
 import MotionProvider from "./MotionProvider";
+import { LinkedinIcon } from "./ui/brand-icons";
 
-const AGENT_LINES: Record<StationHotspotId, string> = {
-  experience: "Lo bancario empezó en Thoughtworks. Sigue explorando.",
-  saas: "RinnFac: mi SaaS multi-tenant. La factura electrónica, resuelta.",
-  projects: "Fuera del trabajo consultorio también construyo lo mío.",
-  stack: "Esta es mi caja de herramientas diaria.",
-  music: "Cuando no hay deploy, hay beats.",
-};
+export default function HeroSection({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const info = t.personalInfo;
+  const lines = t.ui.agentLines;
 
-const AGENT_IDLE =
-  "Hola — toca un punto de la estación, o escríbeme por el chat de la esquina.";
-
-export default function HeroSection() {
   const [active, setActive] = useState<StationHotspotId | null>(null);
   const [agentMessage, setAgentMessage] = useState<string | null>(null);
   const [hintVisible, setHintVisible] = useState(true);
@@ -43,10 +36,10 @@ export default function HeroSection() {
     (id: StationHotspotId | null) => {
       setActive(id);
       setHintVisible(false);
-      if (id) say(AGENT_LINES[id]);
+      if (id) say(lines[id]);
       else setAgentMessage(null);
     },
-    [say]
+    [say, lines]
   );
 
   return (
@@ -69,38 +62,38 @@ export default function HeroSection() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
             </span>
-            Disponible para proyectos
+            {t.ui.hero.available}
           </motion.p>
 
           <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight md:text-5xl">
-            {personalInfo.name}
+            {info.name}
           </h1>
           <p className="mt-2 font-display text-lg font-medium text-muted-foreground md:text-xl">
-            {personalInfo.role}
+            {info.role}
           </p>
 
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <MapPin size={14} className="text-accent" />
-              {personalInfo.location}
+              {info.location}
             </span>
           </div>
 
           <p className="mt-5 max-w-[46ch] text-[15px] leading-relaxed text-muted-foreground">
-            {personalInfo.heroDescription}
+            {info.heroDescription}
           </p>
 
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <motion.a
-              href={`mailto:${personalInfo.email}`}
+              href={`mailto:${info.email}`}
               whileTap={{ scale: 0.97 }}
               className="inline-flex items-center gap-2 rounded-md bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-transform duration-150 ease-out hover:-translate-y-0.5"
             >
               <Mail size={15} />
-              Hablemos de tu proyecto
+              {t.ui.hero.ctaPrimary}
             </motion.a>
             <motion.a
-              href={personalInfo.linkedin}
+              href={info.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               whileTap={{ scale: 0.97 }}
@@ -126,7 +119,8 @@ export default function HeroSection() {
             reduced={reduced}
             isMobile={isMobile}
             agentMessage={agentMessage}
-            onAgentClick={() => say(AGENT_IDLE, 3800)}
+            onAgentClick={() => say(lines.idle, 3800)}
+            locale={locale}
           />
 
           {/* hint bar */}
@@ -140,7 +134,7 @@ export default function HeroSection() {
               >
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/70 px-3 py-1 text-[11px] font-medium text-muted-foreground backdrop-blur-md">
                   <Sparkles size={11} className="text-accent" />
-                  Toca los puntos para explorar la estación
+                  {t.ui.hero.hint}
                 </span>
               </motion.div>
             )}
@@ -148,7 +142,11 @@ export default function HeroSection() {
 
           {/* hotspot panel */}
           <AnimatePresence mode="wait">
-            <StationPanel active={active} onClose={() => handleSelect(null)} />
+            <StationPanel
+              active={active}
+              onClose={() => handleSelect(null)}
+              locale={locale}
+            />
           </AnimatePresence>
         </motion.div>
       </div>

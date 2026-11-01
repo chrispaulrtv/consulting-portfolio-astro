@@ -1,26 +1,5 @@
 ---
-import ChatWidget from "@/components/ChatWidget";
-import ContactSection from "@/components/ContactSection";
-import ExperienceSection from "@/components/ExperienceSection";
-import FeaturedProjectsSection from "@/components/FeaturedProjectsSection";
-import Footer from "@/components/Footer";
-import GlassHeader from "@/components/GlassHeader";
-import HeroSection from "@/components/HeroSection";
-import ProjectsSection from "@/components/ProjectsSection";
-import SkillsSection from "@/components/SkillsSection";
-import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/PageShell.astro";
 ---
 
-<Layout>
-  <GlassHeader client:only="react" />
-  <main class="min-h-screen">
-    <HeroSection client:visible />
-    <FeaturedProjectsSection client:visible />
-    <ExperienceSection client:visible />
-    <SkillsSection client:visible />
-    <ProjectsSection client:visible />
-    <ContactSection client:visible />
-  </main>
-  <Footer client:only="react" />
-  <ChatWidget client:only="react" />
-</Layout>
+<PageShell locale="es" />

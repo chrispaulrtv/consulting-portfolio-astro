@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { LinkedinIcon, GithubIcon } from "./ui/brand-icons";
-import { personalInfo } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import MotionWrapper from "./MotionWrapper";
 import MotionProvider from "./MotionProvider";
 
-export default function ContactSection() {
+export default function ContactSection({ locale = "es" }: { locale?: Locale }) {
+  const t = content[locale];
+  const info = t.personalInfo;
+  const c = t.ui.sections.contact;
+
   return (
     <MotionProvider>
     <section
@@ -35,8 +39,8 @@ export default function ContactSection() {
                   aria-hidden="true"
                 />
                 <img
-                  src={personalInfo.profilePicture}
-                  alt={`Foto de ${personalInfo.name}`}
+                  src={info.profilePicture}
+                  alt={c.photoAlt}
                   width={112}
                   height={112}
                   loading="lazy"
@@ -47,27 +51,25 @@ export default function ContactSection() {
 
             <div className="min-w-0">
               <h2 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-                ¿Hablamos?
+                {c.title}
               </h2>
               <p className="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted-foreground">
-                Cuéntame qué necesitas: auditar tu app móvil, reforzar tu equipo
-                senior o diseñar la arquitectura de tu próximo producto. Respondo
-                personalmente.
+                {c.copy}
               </p>
 
               <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <motion.a
-                  href={`mailto:${personalInfo.email}`}
+                  href={`mailto:${info.email}`}
                   whileTap={{ scale: 0.97 }}
                   className="group inline-flex items-center gap-2.5 rounded-md bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-transform duration-150 ease-out hover:-translate-y-0.5"
                 >
                   <Mail size={15} />
-                  {personalInfo.email}
+                  {info.email}
                 </motion.a>
 
                 <div className="flex items-center gap-4 pl-1">
                   <a
-                    href={personalInfo.linkedin}
+                    href={info.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors duration-150 hover:text-accent"
@@ -76,7 +78,7 @@ export default function ContactSection() {
                     LinkedIn
                   </a>
                   <a
-                    href={personalInfo.github}
+                    href={info.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors duration-150 hover:text-accent"

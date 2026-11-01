@@ -4,6 +4,7 @@ import { ContactShadows, Html } from "@react-three/drei";
 import * as THREE from "three";
 import { Workstation, FloatingPhone, getPalette } from "./Workstation";
 import AgentDrone from "./AgentDrone";
+import { content, type Locale } from "@/lib/content";
 
 export type StationHotspotId =
   | "experience"
@@ -14,7 +15,6 @@ export type StationHotspotId =
 
 interface HotspotDef {
   id: StationHotspotId;
-  label: string;
   marker: [number, number, number];
   cam: [number, number, number];
   target: [number, number, number];
@@ -26,35 +26,30 @@ const DEFAULT_TARGET: [number, number, number] = [0, 1.15, 0];
 export const HOTSPOTS: HotspotDef[] = [
   {
     id: "experience",
-    label: "Experiencia",
     marker: [-0.5, 2.5, -0.32],
     cam: [-0.15, 2.5, 1.95],
     target: [-0.5, 1.95, -0.3],
   },
   {
     id: "saas",
-    label: "RinnoTec · RinnFac",
     marker: [2.15, 1.22, -0.35],
     cam: [3.15, 1.4, 1.55],
     target: [2.1, 0.7, -0.35],
   },
   {
     id: "projects",
-    label: "Proyectos",
     marker: [2.3, 2.55, 0.65],
     cam: [3.5, 2.35, 3.0],
     target: [2.26, 1.85, 0.65],
   },
   {
     id: "stack",
-    label: "Stack",
     marker: [-0.42, 1.6, 0.32],
     cam: [-0.75, 2.15, 1.95],
     target: [-0.4, 1.08, 0.3],
   },
   {
     id: "music",
-    label: "Errante Chr",
     marker: [1.55, 1.78, -0.05],
     cam: [2.55, 2.1, 1.6],
     target: [1.55, 1.42, -0.05],
@@ -108,11 +103,15 @@ function CameraRig({
 /* Pulsing beacon above each interactive object */
 function HotspotMarker({
   def,
+  label,
+  explore,
   active,
   onSelect,
   accent,
 }: {
   def: HotspotDef;
+  label: string;
+  explore: string;
   active: boolean;
   onSelect: (id: StationHotspotId) => void;
   accent: string;
@@ -181,7 +180,7 @@ function HotspotMarker({
           <div
             className={`station-label${active || hovered ? " station-label--visible" : ""}${active ? " station-label--active" : ""}`}
           >
-            {def.label}
+            {label}
           </div>
         </Html>
       </group>
@@ -196,7 +195,7 @@ function HotspotMarker({
       >
         <button
           type="button"
-          aria-label={`Explorar ${def.label}`}
+          aria-label={`${explore} ${label}`}
           aria-pressed={active}
           onClick={(e) => {
             e.stopPropagation();
@@ -267,6 +266,7 @@ export default function StationScene({
   isMobile,
   agentMessage,
   onAgentClick,
+  locale = "es",
 }: {
   active: StationHotspotId | null;
   onSelect: (id: StationHotspotId | null) => void;
@@ -275,8 +275,10 @@ export default function StationScene({
   isMobile: boolean;
   agentMessage: string | null;
   onAgentClick?: () => void;
+  locale?: Locale;
 }) {
   const p = getPalette(isDark);
+  const t = content[locale];
 
   return (
     <Canvas
@@ -307,6 +309,8 @@ export default function StationScene({
           <HotspotMarker
             key={def.id}
             def={def}
+            label={t.ui.hotspotLabels[def.id]}
+            explore={t.ui.explore}
             active={active === def.id}
             onSelect={onSelect}
             accent={p.accent}

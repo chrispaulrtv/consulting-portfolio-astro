@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { X, ArrowUpRight } from "lucide-react";
 import type { StationHotspotId } from "./three/StationScene";
-import { workExperience, featuredProjects, skills, personalInfo } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 
 const panelMotion = {
   initial: { opacity: 0, y: 24 },
@@ -21,10 +21,11 @@ function Chip({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ExperiencePanel() {
+function ExperiencePanel({ locale }: { locale: Locale }) {
+  const t = content[locale];
   return (
     <ul className="space-y-3">
-      {workExperience.map((job) => (
+      {t.workExperience.map((job) => (
         <li key={job.company} className="flex items-baseline justify-between gap-3">
           <div>
             <p className="font-display text-sm font-semibold">
@@ -42,8 +43,9 @@ function ExperiencePanel() {
   );
 }
 
-function SaasPanel() {
-  const project = featuredProjects[0];
+function SaasPanel({ locale }: { locale: Locale }) {
+  const t = content[locale];
+  const project = t.featuredProjects[0];
   return (
     <div className="space-y-3">
       <p className="font-display text-sm font-semibold">
@@ -68,10 +70,11 @@ function SaasPanel() {
   );
 }
 
-function ProjectsPanel() {
+function ProjectsPanel({ locale }: { locale: Locale }) {
+  const t = content[locale];
   return (
     <div className="space-y-4">
-      {featuredProjects.slice(1).map((project) => (
+      {t.featuredProjects.slice(1).map((project) => (
         <div key={project.name} className="space-y-1.5">
           <p className="font-display text-sm font-semibold">{project.name}</p>
           <p className="text-xs leading-relaxed text-muted-foreground">{project.tagline}</p>
@@ -94,14 +97,16 @@ function ProjectsPanel() {
   );
 }
 
-function StackPanel() {
+function StackPanel({ locale }: { locale: Locale }) {
+  const t = content[locale];
+  const g = t.ui.sections.skills.groups;
   const groups: Array<[string, string[]]> = [
-    ["Lenguajes", skills.programmingLanguages],
-    ["Frontend", skills.frontendDevelopment],
-    ["Backend", skills.backendDevelopment],
-    ["Datos", skills.databaseAndStorage],
-    ["Cloud & DevOps", skills.cloudAndDevOps],
-    ["Tools", skills.toolsAndServices],
+    [g.languages, t.skills.programmingLanguages],
+    [g.frontend, t.skills.frontendDevelopment],
+    [g.backend, t.skills.backendDevelopment],
+    [g.data, t.skills.databaseAndStorage],
+    [g.cloud, t.skills.cloudAndDevOps],
+    [g.tools, t.skills.toolsAndServices],
   ];
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
@@ -117,19 +122,20 @@ function StackPanel() {
   );
 }
 
-function MusicPanel() {
+function MusicPanel({ locale }: { locale: Locale }) {
+  const t = content[locale];
   const links = [
-    { label: "Spotify", href: personalInfo.music.url },
-    { label: "Instagram", href: personalInfo.music.instagram },
-    { label: "YouTube", href: personalInfo.music.youtube },
-    { label: "TikTok", href: personalInfo.music.tiktok },
+    { label: "Spotify", href: t.personalInfo.music.url },
+    { label: "Instagram", href: t.personalInfo.music.instagram },
+    { label: "YouTube", href: t.personalInfo.music.youtube },
+    { label: "TikTok", href: t.personalInfo.music.tiktok },
   ];
   return (
     <div>
-      <p className="text-xs leading-relaxed text-muted-foreground">
-        Fuera del editor también produzco música urbana. Bajo el alias{" "}
-        <span className="font-semibold text-foreground">{personalInfo.music.alias}</span>.
-      </p>
+      <p
+        className="text-xs leading-relaxed text-muted-foreground"
+        dangerouslySetInnerHTML={{ __html: t.ui.musicIntro }}
+      />
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
         {links.map((link) => (
           <a
@@ -147,22 +153,17 @@ function MusicPanel() {
   );
 }
 
-const PANEL_TITLES: Record<StationHotspotId, string> = {
-  experience: "Experiencia",
-  saas: "RinnoTec · RinnFac",
-  projects: "Proyectos propios",
-  stack: "Stack técnico",
-  music: "Errante Chr",
-};
-
 export default function StationPanel({
   active,
   onClose,
+  locale = "es",
 }: {
   active: StationHotspotId | null;
   onClose: () => void;
+  locale?: Locale;
 }) {
   if (!active) return null;
+  const t = content[locale];
 
   return (
     <motion.div
@@ -171,21 +172,23 @@ export default function StationPanel({
       className="absolute inset-x-0 bottom-0 z-20 rounded-t-xl border-t border-accent/30 bg-background/85 p-4 backdrop-blur-xl sm:p-5"
     >
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-display text-sm font-bold tracking-tight">{PANEL_TITLES[active]}</h3>
+        <h3 className="font-display text-sm font-bold tracking-tight">
+          {t.ui.panelTitles[active]}
+        </h3>
         <button
           onClick={onClose}
-          aria-label="Cerrar panel"
+          aria-label={t.ui.panelClose}
           className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground active:scale-90"
         >
           <X size={15} />
         </button>
       </div>
       <div className="max-h-44 overflow-y-auto pr-1 sm:max-h-52">
-        {active === "experience" && <ExperiencePanel />}
-        {active === "saas" && <SaasPanel />}
-        {active === "projects" && <ProjectsPanel />}
-        {active === "stack" && <StackPanel />}
-        {active === "music" && <MusicPanel />}
+        {active === "experience" && <ExperiencePanel locale={locale} />}
+        {active === "saas" && <SaasPanel locale={locale} />}
+        {active === "projects" && <ProjectsPanel locale={locale} />}
+        {active === "stack" && <StackPanel locale={locale} />}
+        {active === "music" && <MusicPanel locale={locale} />}
       </div>
     </motion.div>
   );

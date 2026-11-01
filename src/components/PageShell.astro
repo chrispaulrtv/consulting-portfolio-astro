@@ -1,0 +1,33 @@
+---
+import ChatWidget from "@/components/ChatWidget";
+import ContactSection from "@/components/ContactSection";
+import ExperienceSection from "@/components/ExperienceSection";
+import FeaturedProjectsSection from "@/components/FeaturedProjectsSection";
+import Footer from "@/components/Footer";
+import GlassHeader from "@/components/GlassHeader";
+import HeroSection from "@/components/HeroSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import SkillsSection from "@/components/SkillsSection";
+import Layout from "@/layouts/Layout.astro";
+import type { Locale } from "@/lib/content";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Layout locale={locale}>
+  <GlassHeader client:only="react" locale={locale} />
+  <main class="min-h-screen">
+    <HeroSection client:visible locale={locale} />
+    <FeaturedProjectsSection client:visible locale={locale} />
+    <ExperienceSection client:visible locale={locale} />
+    <SkillsSection client:visible locale={locale} />
+    <ProjectsSection client:visible locale={locale} />
+    <ContactSection client:visible locale={locale} />
+  </main>
+  <Footer client:only="react" locale={locale} />
+  <ChatWidget client:only="react" locale={locale} />
+</Layout>
